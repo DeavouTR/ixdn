@@ -1,0 +1,51 @@
+import { IDCARD, LOGIN } from "../../lib/routes";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/auth";
+import Navbar from "../../components/layout/Navbar";
+import { Box, Flex,Text, Heading, Img, Link, Center } from "@chakra-ui/react";
+import User from "../users/User";
+import { SimpleGrid } from "@chakra-ui/react";
+import { useUsers } from "../../hooks/users";
+import { Button,} from "@chakra-ui/react";
+import { Code, HStack } from "@chakra-ui/react";
+import { USERS } from "../../lib/routes";
+import { DASHBOARD } from "../../lib/routes";
+import { PROTECTED,} from "../../lib/routes";
+import { LANDING } from "../../lib/routes";
+import { Link as RouterLink } from "react-router-dom";
+import Img2 from '../../assets/12.jpeg'
+import BackgroundVideo from "../../assets/backgroundvideo";
+import vid12 from "../../assets/video-2.mp4"
+export default function Layout() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { user, isLoading } = useAuth();
+
+  const { users,} = useUsers();
+  
+
+
+  useEffect(() => {
+    if (!isLoading && pathname.startsWith("/protected") && !user) {
+      navigate(LOGIN);
+    }
+  }, [pathname, user, isLoading]);
+
+  if (isLoading) return "Loading auth user...";
+
+  return (
+    <>
+
+<Center w="300" h="200">
+
+
+
+<img src= {user.idcardf} w="300" h="200" alt="pic"></img>
+<img src= {user.idcardr} w="300" h="200" alt="pic"></img>
+
+</Center>
+
+    </>
+  );
+}
